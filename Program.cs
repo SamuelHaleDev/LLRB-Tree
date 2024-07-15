@@ -5,7 +5,7 @@ namespace LLRB_Tree;
 public class RedBlackTree<T> where T : IComparable<T>
 {
     /* root of the tree */
-    RBTreeNode<T> root;
+    public RBTreeNode<T> root;
 
     public class RBTreeNode<T> 
     {
@@ -20,7 +20,7 @@ public class RedBlackTree<T> where T : IComparable<T>
          * @param isBlack
          * @param item
          */
-        RBTreeNode(bool isBlack, T item)
+        public RBTreeNode(bool isBlack, T item)
         {
             this.isBlack = isBlack;
             this.item = item;
@@ -34,7 +34,7 @@ public class RedBlackTree<T> where T : IComparable<T>
          * @param left
          * @param right
          */
-        RBTreeNode(bool isBlack, T item, RBTreeNode<T> left, RBTreeNode<T> right)
+        public RBTreeNode(bool isBlack, T item, RBTreeNode<T> left, RBTreeNode<T> right)
         {
             this.isBlack = isBlack;
             this.item = item;
@@ -147,7 +147,23 @@ class Program
      */
     public static bool testBasicRotateRight()
     {
-        return false;
+        // Insert 10, 9, 8
+        RedBlackTree<int> rbtree = new TestableRedBlackTree();
+        if (rbtree.root is not null) return false;
+
+        RedBlackTree<int>.RBTreeNode<int> node1 = new RedBlackTree<int>.RBTreeNode<int>(true, 10, null, null);
+        RedBlackTree<int>.RBTreeNode<int> node2 = new RedBlackTree<int>.RBTreeNode<int>(true, 9, null, null);
+        RedBlackTree<int>.RBTreeNode<int> node3 = new RedBlackTree<int>.RBTreeNode<int>(true, 8, null, null);
+        node1.left = node2;
+        node2.left = node3;
+
+        RedBlackTree<int>.RBTreeNode<int> newRoot = rbtree.rotateRight(node1);
+
+        if (newRoot.item != 9) return false;
+        if (newRoot.right.item != 10) return false;
+        if (newRoot.left.item != 8) return false;
+        
+        return true;
     }
 
     public static bool testInsertSimple()
