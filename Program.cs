@@ -148,7 +148,7 @@ class Program
     public static bool testBasicRotateRight()
     {
         // Insert 10, 9, 8
-        RedBlackTree<int> rbtree = new TestableRedBlackTree();
+        TestableRedBlackTree rbtree = new TestableRedBlackTree();
         if (rbtree.root is not null) return false;
 
         RedBlackTree<int>.RBTreeNode<int> node1 = new RedBlackTree<int>.RBTreeNode<int>(true, 10, null, null);
@@ -162,13 +162,79 @@ class Program
         if (newRoot.item != 9) return false;
         if (newRoot.right.item != 10) return false;
         if (newRoot.left.item != 8) return false;
-        
+
         return true;
     }
 
     public static bool testInsertSimple()
     {
-        return false;
+        TestableRedBlackTree rbtree = new TestableRedBlackTree();
+
+        /*
+        LLRB Tree representation:
+
+         */
+        if (rbtree.root is not null) return false;
+
+
+        rbtree.insert(10);
+        
+        /*
+        LLRB Tree representation:
+           (10)
+
+         */
+
+        // root
+        if (rbtree.root is null) return false;
+        if (!rbtree.root.isBlack) return false;
+        if (rbtree.root.item != 10) return false;
+
+        // left
+        if (rbtree.root.left is not null) return false;
+
+        // right
+        if (rbtree.root.right is not null) return false;
+
+        rbtree.insert(5);
+
+        /*
+        LLRB Tree representation:
+            (10)
+            └── (5)*
+
+         */
+
+
+        // root
+        if (rbtree.root is null) return false;
+        if (!rbtree.root.isBlack) return false;
+        if (rbtree.root.item != 10) return false;
+
+        // left
+        if (rbtree.root.left is null) return false;
+        if (rbtree.root.left.isBlack) return false;
+        if (rbtree.root.left.item != 5) return false;
+
+        // left.left
+        if (rbtree.root.left.left is not null) return false;
+
+        // left.right
+        if (rbtree.root.left.right is not null) return false;
+
+        // right
+        if (rbtree.root.right is not null) return false;
+
+        Console.WriteLine("Number of Calls to Flip Colors after inserting (10, 5) in order");
+        if (rbtree.callsToFlipColors != 0) return false;
+
+        Console.WriteLine("Number of Calls to Rotate Left after inserting (10, 5) in order");
+        if (rbtree.callsToRotateLeft != 0) return false;
+
+        Console.WriteLine("Number of Calls to Rotate Right after inserting (10, 5) in order");
+        if (rbtree.callsToRotateRight != 0) return false;
+
+        return true;
     }
 
     public static bool testInsertFlipColor()
@@ -216,8 +282,8 @@ class Program
             return base.rotateLeft(node);
         }
 
-        private int callsToFlipColors = 0;
-        private int callsToRotateRight = 0;
-        private int callsToRotateLeft = 0;
+        public int callsToFlipColors = 0;
+        public int callsToRotateRight = 0;
+        public int callsToRotateLeft = 0;
     }
 }
