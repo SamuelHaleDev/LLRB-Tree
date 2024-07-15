@@ -339,7 +339,60 @@ class Program
 
     public static bool testInsertRotateRight()
     {
-        return false;
+        TestableRedBlackTree rbtree = new TestableRedBlackTree();
+        rbtree.insert(10);
+        rbtree.insert(5);
+        rbtree.insert(3);
+
+        /*
+        LLRB Tree Representation:
+            (5)
+            └── (3)
+            └── (10)
+
+         */
+
+        // root
+        if (rbtree.root is null) return false;
+        if (!rbtree.root.isBlack) return false;
+        if (rbtree.root.item != 5) return false;
+
+
+        // left
+        if (rbtree.root.left is null) return false;
+        if (rbtree.root.left.isBlack) return false;
+        if (rbtree.root.left.item != 3) return false;
+
+        // left.left
+        if (rbtree.root.left.left is not null) return false;
+
+        // left.right
+        if (rbtree.root.left.right is not null) return false;
+
+
+        // right
+        if (rbtree.root.right is null) return false;
+        if (rbtree.root.right.isBlack) return false;
+        if (rbtree.root.right.item != 10) return false;
+
+        // right.left
+        if (rbtree.root.right.left is not null) return false;
+
+
+        // right.right
+        if (rbtree.root.right.right is not null) return false;
+
+        // Not possible to test rotate right without calling color flip in the same insert, if implemented correctly
+        Console.WriteLine("Number of Calls to Flip Colors after inserting (10, 5, 3) in order");
+        if (rbtree.callsToFlipColors != 1) return false;
+
+        Console.WriteLine("Number of Calls to Rotate Left after inserting (10, 5, 3) in order");
+        if (rbtree.callsToRotateLeft != 0) return false;
+
+        Console.WriteLine("Number of Calls to Rotate Right after inserting (10, 5, 3) in order");
+        if (rbtree.callsToRotateRight != 1) return false;
+
+        return true;
     }
 
     public static bool testInsertAllFixes()
