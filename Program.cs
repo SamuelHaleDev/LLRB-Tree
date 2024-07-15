@@ -452,7 +452,73 @@ class Program
 
     public static bool testInsertUpwardPropagation()
     {
-        return false;
+        TestableRedBlackTree rbtree = new TestableRedBlackTree();
+
+        rbtree.insert(5);
+        rbtree.insert(11);
+        rbtree.insert(3);
+        rbtree.insert(9);
+        rbtree.insert(7);
+        rbtree.insert(1);
+        rbtree.insert(2);
+
+        /*
+        LLRB Tree Representation:
+            (5)
+            ├── (2)
+            │   ├── (1)
+            │   └── (3)
+            └── (9)
+                ├── (7)
+                └── (11)
+
+         */
+
+        // root
+        if (rbtree.root is null) return false;
+        if (!rbtree.root.isBlack) return false;
+        if (rbtree.root.item != 5) return false;
+
+        // left
+        if (rbtree.root.left is null) return false;
+        if (!rbtree.root.left.isBlack) return false;
+        if (rbtree.root.left.item != 2) return false;
+
+        // left.left
+        if (rbtree.root.left.left is null) return false;
+        if (!rbtree.root.left.left.isBlack) return false;
+        if (rbtree.root.left.item != 1) return false;
+
+        // left.right
+        if (rbtree.root.left.right is null) return false;
+        if (!rbtree.root.left.right.isBlack) return false;
+        if (rbtree.root.left.right.item != 3) return false;
+
+        // right
+        if (rbtree.root.right is null) return false;
+        if (!rbtree.root.right.isBlack) return false;
+        if (rbtree.root.right.item != 9) return false;
+
+        // right.left
+        if (rbtree.root.right.left is null) return false;
+        if (!rbtree.root.right.left.isBlack) return false;
+        if (rbtree.root.right.left.item != 7) return false;
+
+        // right.right
+        if (rbtree.root.right.right is null) return false;
+        if (!rbtree.root.right.right.isBlack) return false;
+        if (rbtree.root.right.right.item != 11) return false;
+
+        Console.WriteLine("Number of Calls to Flip Colors after inserting (5, 11, 3, 9, 7, 1, 2) in order");
+        if (rbtree.callsToFlipColors != 4) return false;
+
+        Console.WriteLine("Number of Calls to Rotate Left after inserting (5, 11, 3, 9, 7, 1, 2) in order");
+        if (rbtree.callsToRotateLeft != 3) return false;
+
+        Console.WriteLine("Number of Calls to Rotate Right after inserting (5, 11, 3, 9, 7, 1, 2) in order");
+        if (rbtree.callsToRotateRight != 4) return false;
+
+        return true;
     }
 
     public class TestableRedBlackTree : RedBlackTree<int>
