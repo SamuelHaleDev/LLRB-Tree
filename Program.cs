@@ -294,7 +294,47 @@ class Program
 
     public static bool testInsertRotateLeft()
     {
-        return false;
+        TestableRedBlackTree rbtree = new TestableRedBlackTree();
+        rbtree.insert(10);
+        rbtree.insert(15);
+
+        /*
+        LLRB Tree Representation:
+            (15)
+            └── (10)*
+
+         */
+
+        // root
+        if (rbtree.root is null) return false;
+        if (!rbtree.root.isBlack) return false;
+        if (rbtree.root.item != 15) return false;
+
+
+        // left
+        if (rbtree.root.left is null) return false;
+        if (rbtree.root.left.isBlack) return false;
+        if (rbtree.root.left.item != 10) return false;
+
+        // left.left
+        if (rbtree.root.left.left is not null) return false;
+
+        // left.right
+        if (rbtree.root.left.right is not null) return false;
+
+        // right
+        if (rbtree.root.right is not null) return false;
+
+        Console.WriteLine("Number of Calls to Flip Colors after inserting (10, 15) in order");
+        if (rbtree.callsToFlipColors != 0) return false;
+
+        Console.WriteLine("Number of Calls to Rotate Left after inserting (10, 15) in order");
+        if (rbtree.callsToRotateLeft != 1) return false;
+
+        Console.WriteLine("Number of Calls to Rotate Right after inserting (10, 15) in order");
+        if (rbtree.callsToRotateRight != 0) return false;
+
+        return true;
     }
 
     public static bool testInsertRotateRight()
