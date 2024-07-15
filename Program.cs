@@ -1,11 +1,13 @@
-﻿namespace LLRB_Tree;
+﻿using SamUtilities;
+
+namespace LLRB_Tree;
 
 public class RedBlackTree<T> where T : IComparable<T>
 {
     /* root of the tree */
     RBTreeNode<T> root;
 
-    class RBTreeNode<T> 
+    public class RBTreeNode<T> 
     {
         public readonly T item;
         public bool isBlack;
@@ -54,7 +56,7 @@ public class RedBlackTree<T> where T : IComparable<T>
      * and right children
      * @param node
      */
-    void flipColors(RBTreeNode<T> node) {
+    public virtual void flipColors(RBTreeNode<T> node) {
         // TODO: YOUR CODE HERE
     }
 
@@ -65,7 +67,7 @@ public class RedBlackTree<T> where T : IComparable<T>
      * @param node
      * @return
      */
-    RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
+    public virtual RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
         // TODO: YOUR CODE HERE
         return null;
     }
@@ -77,7 +79,7 @@ public class RedBlackTree<T> where T : IComparable<T>
      * @param node
      * @return
      */
-    RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
+    public virtual RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
         // TODO: YOUR CODE HERE
         return null;
     }
@@ -128,6 +130,78 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        Helpers utils = new Helpers();
+        Helpers.RunTest(testBasicRotateRight, "testBasicRotateRight");
+        Helpers.RunTest(testInsertSimple, "testInsertSimple");
+        Helpers.RunTest(testInsertFlipColor, "testInsertFlipColor");
+        Helpers.RunTest(testInsertRotateLeft, "testInsertRotateLeft");
+        Helpers.RunTest(testInsertRotateRight, "testInsertRotateRight");
+        Helpers.RunTest(testInsertAllFixes, "testInsertAllFixes");
+        Helpers.RunTest(testInsertUpwardPropagation, "testInsertUpwardPropagation");
+    }
+
+    /*
+    Tests for a very basic case of rotating right. This does not check for color flips, but only if the nodes are in the proper
+    place after rotating right. Note that we have not provided any basic tests for rotate left, but implementation details for
+    rotate right and rotate left should be symmetrical.
+     */
+    public static bool testBasicRotateRight()
+    {
+        return false;
+    }
+
+    public static bool testInsertSimple()
+    {
+        return false;
+    }
+
+    public static bool testInsertFlipColor()
+    {
+        return false;
+    }
+
+    public static bool testInsertRotateLeft()
+    {
+        return false;
+    }
+
+    public static bool testInsertRotateRight()
+    {
+        return false;
+    }
+
+    public static bool testInsertAllFixes()
+    {
+        return false;
+    }
+
+    public static bool testInsertUpwardPropagation()
+    {
+        return false;
+    }
+
+    public class TestableRedBlackTree : RedBlackTree<int>
+    {
+        public override void flipColors(RBTreeNode<int> node)
+        {
+            callsToFlipColors++;
+            base.flipColors(node);
+        }
+
+        public override RBTreeNode<int> rotateRight(RBTreeNode<int> node)
+        {
+            callsToRotateRight++;
+            return base.rotateRight(node);
+        }
+
+        public override RBTreeNode<int> rotateLeft(RBTreeNode<int> node)
+        {
+            callsToRotateLeft++;
+            return base.rotateLeft(node);
+        }
+
+        private int callsToFlipColors = 0;
+        private int callsToRotateRight = 0;
+        private int callsToRotateLeft = 0;
     }
 }
