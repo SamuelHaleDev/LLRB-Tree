@@ -70,8 +70,22 @@ public class RedBlackTree<T> where T : IComparable<T>
      * @return
      */
     public virtual RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
-        // TODO: YOUR CODE HERE
-        return null;
+        if (node is null) return node;
+
+        RBTreeNode<T> childNode;
+
+        if (node.left.right is not null) childNode = node.left.right;
+        
+        else childNode = null;
+
+        if (node == root) root = node.left;
+
+        node.isBlack = false;
+        node.left.isBlack = true;
+        node.left.right = node;
+        node.left = childNode;
+
+        return node;
     }
 
     /**
@@ -82,8 +96,22 @@ public class RedBlackTree<T> where T : IComparable<T>
      * @return
      */
     public virtual RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
-        // TODO: YOUR CODE HERE
-        return null;
+        if (node is null) return node;
+
+        RBTreeNode<T> childNode;
+
+        if (node.right.left is not null) childNode = node.right.left;
+
+        else childNode = null;
+
+        if (node == root) root = node.right;
+
+        node.isBlack = false;
+        node.right.isBlack = true;
+        node.right.left = node;
+        node.right = childNode;
+
+        return node;
     }
 
     /**
