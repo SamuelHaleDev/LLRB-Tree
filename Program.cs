@@ -114,17 +114,20 @@ public class RedBlackTree<T> where T : IComparable<T>
      * @return
      */
     private RBTreeNode<T> insert(RBTreeNode<T> node, T item) {
-        // TODO: Insert (return) new red leaf node.
+        if (node is null) return new RBTreeNode<T>(true, item);
 
-        // TODO: Handle normal binary search tree insertion.
+        int cmp = item.CompareTo(node.item);
+        if (cmp < 0) node.left = insert(node.left, item);
+        else if (cmp > 0) node.right = insert(node.right, item);
+        else return node;
 
-        // TODO: Rotate left operation
+        if (isRed(node.right) && !isRed(node.left)) node = rotateLeft(node);
 
-        // TODO: Rotate right operation
+        if (isRed(node.left) && isRed(node.left.left)) node = rotateRight(node);
 
-        // TODO: Color flip
+        if (isRed(node.left) && isRed(node.right)) flipColors(node);
 
-        return null; //fix this return statement
+        return node; 
     }
 }
 
