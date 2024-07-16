@@ -53,11 +53,13 @@ public class RedBlackTree<T> where T : IComparable<T>
 
     /**
      * Flips the color of node and its children. Assume that NODE has both left
-     * and right children
+     * and right children 
      * @param node
      */
     public virtual void flipColors(RBTreeNode<T> node) {
-        // TODO: YOUR CODE HERE
+        node.isBlack = false;
+        node.left.isBlack = true;
+        node.right.isBlack = true;
     }
 
     /**
