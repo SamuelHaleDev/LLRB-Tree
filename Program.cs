@@ -80,12 +80,13 @@ public class RedBlackTree<T> where T : IComparable<T>
 
         if (node == root) root = node.left;
 
+        RBTreeNode<T> newRoot = node.left;
         node.isBlack = false;
         node.left.isBlack = true;
         node.left.right = node;
         node.left = childNode;
 
-        return node;
+        return newRoot;
     }
 
     /**
@@ -106,12 +107,22 @@ public class RedBlackTree<T> where T : IComparable<T>
 
         if (node == root) root = node.right;
 
+        RBTreeNode<T> newRoot = node.right;
+
+        // The only time we trade off colors is when one is not red
+        if (isRed(node.right) && isRed(node))
+        {
+            node.right.left = node;
+            node.right = childNode;
+            return newRoot;
+        }
+
         node.isBlack = false;
         node.right.isBlack = true;
         node.right.left = node;
         node.right = childNode;
 
-        return node;
+        return newRoot;
     }
 
     /**
@@ -142,7 +153,7 @@ public class RedBlackTree<T> where T : IComparable<T>
      * @return
      */
     private RBTreeNode<T> insert(RBTreeNode<T> node, T item) {
-        if (node is null) return new RBTreeNode<T>(true, item);
+        if (node is null) return new RBTreeNode<T>(false, item);
 
         int cmp = item.CompareTo(node.item);
         if (cmp < 0) node.left = insert(node.left, item);
@@ -293,7 +304,7 @@ class Program
 
         // left
         if (rbtree.root.left is null) return false;
-        if (rbtree.root.left.isBlack) return false;
+        if (!rbtree.root.left.isBlack) return false;
         if (rbtree.root.left.item != 5) return false;
 
         // left.left
@@ -304,7 +315,7 @@ class Program
 
         // right
         if (rbtree.root.right is null) return false;
-        if (rbtree.root.right.isBlack) return false;
+        if (!rbtree.root.right.isBlack) return false;
         if (rbtree.root.right.item != 15) return false;
 
         // right.left
@@ -393,7 +404,7 @@ class Program
 
         // left
         if (rbtree.root.left is null) return false;
-        if (rbtree.root.left.isBlack) return false;
+        if (!rbtree.root.left.isBlack) return false;
         if (rbtree.root.left.item != 3) return false;
 
         // left.left
@@ -405,7 +416,7 @@ class Program
 
         // right
         if (rbtree.root.right is null) return false;
-        if (rbtree.root.right.isBlack) return false;
+        if (!rbtree.root.right.isBlack) return false;
         if (rbtree.root.right.item != 10) return false;
 
         // right.left
@@ -451,7 +462,7 @@ class Program
 
         // left
         if (rbtree.root.left is null) return false;
-        if (rbtree.root.left.isBlack) return false;
+        if (!rbtree.root.left.isBlack) return false;
         if (rbtree.root.left.item != 5) return false;
 
         // left.left
@@ -462,7 +473,7 @@ class Program
 
         // right
         if (rbtree.root.right is null) return false;
-        if (rbtree.root.right.isBlack) return false;
+        if (!rbtree.root.right.isBlack) return false;
         if (rbtree.root.right.item != 10) return false;
 
         // right.left
@@ -520,7 +531,7 @@ class Program
         // left.left
         if (rbtree.root.left.left is null) return false;
         if (!rbtree.root.left.left.isBlack) return false;
-        if (rbtree.root.left.item != 1) return false;
+        if (rbtree.root.left.left.item != 1) return false;
 
         // left.right
         if (rbtree.root.left.right is null) return false;
